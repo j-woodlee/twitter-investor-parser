@@ -40,5 +40,5 @@ def authorize():
                         resource_owner_key=access_token,
                         resource_owner_secret=access_token_secret)
 
-    return oauth;
+    return oauth
     

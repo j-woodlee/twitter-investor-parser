@@ -5,7 +5,7 @@ def get_investors(users):
     for user in users:
         # print(user["description"])
 
-        if (user["description"].find("investor") != -1):
+        if (user["description"].find("invest") != -1):
             ret_users.append(user)
             #print("user added: ")
             # print(user)
