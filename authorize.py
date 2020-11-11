@@ -4,7 +4,7 @@ import os
 from requests_oauthlib import OAuth1Session
 
 def authorize():
-    keys = apikeys.getKeys()
+    keys = apikeys.get_keys()
     consumer_key = keys["api"]  # Add your API key here
     consumer_secret = keys["apisecret"]  # Add your API secret key here
 

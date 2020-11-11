@@ -4,15 +4,16 @@ import requests
 import investor_filters
 import json
 import test_api
+import time
 
 
 
 oauth = authorize.authorize()
 
 
-#screen_name = input('Enter Screen Name: ')
+screen_name = input('Enter Screen Name: ')
 
-screen_name = "tferriss"
+#screen_name = "tferriss"
 params = {"cursor":-1, "screen_name":screen_name, "skip_status":"true", "include_user_entities":"false", "count":200}
 
 response = oauth.get("https://api.twitter.com/1.1/friends/list.json", params = params)
@@ -29,8 +30,7 @@ next_cursor = json_response["next_cursor"] # to get next page do another api cal
 
 investors = investor_filters.get_investors(json_response["users"])
 
-i = 0
-while (next_cursor != 0 and i < 6):
+while (next_cursor != 0):
     print(next_cursor)
     params["cursor"] = next_cursor
     response = oauth.get("https://api.twitter.com/1.1/friends/list.json", params = params)
@@ -40,14 +40,14 @@ while (next_cursor != 0 and i < 6):
     json_response = response.json()
     next_cursor = json_response["next_cursor"]
     investors.extend(investor_filters.get_investors(json_response["users"]))
-    i = i + 1
+    time.sleep(61)
 
-
-f = open("./testfile.txt", "x")
+f = open("./investors.csv", "x")
 for i in range(len(investors)):
     #print(investors[i])
     #print('\n')
-    f.write(investors[i]["screen_name"] + '\n' + investors[i]["description"] + '\n\n\n')
+    investors[i]["description"] = investors[i]["description"].replace(',','')
+    f.write(investors[i]["screen_name"] + ',' + "\"" + investors[i]["description"] + "\"" + '\n')
 
 f.close()
 
