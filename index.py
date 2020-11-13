@@ -32,6 +32,7 @@ investors = investor_filters.get_investors(json_response["users"])
 
 while (next_cursor != 0):
     print(next_cursor)
+    time.sleep(61)
     params["cursor"] = next_cursor
     response = oauth.get("https://api.twitter.com/1.1/friends/list.json", params = params)
     print("Response status: %s" % response.status_code)
@@ -40,7 +41,10 @@ while (next_cursor != 0):
     json_response = response.json()
     next_cursor = json_response["next_cursor"]
     investors.extend(investor_filters.get_investors(json_response["users"]))
-    time.sleep(61)
+    for i in range(len(investors)):
+        print(str(i) + ":")
+        print(investors[i]["description"])
+        print('\n')
 
 f = open("./investors.csv", "x")
 for i in range(len(investors)):
